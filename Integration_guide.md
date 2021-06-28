@@ -77,7 +77,7 @@ We use psbt to encode the unsigned transaction and we provide two ways for that:
 
 2. QRCode: We use [crypto-psbt](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-006-urtypes.md#partially-signed-bitcoin-transaction-psbt-crypto-psbt) to encode the psbt data. Here is a sample QRCode Image. 
 
-![image](./pics/export_single_sig_expub.png)
+![image](./pics/sig_unsigned_psbt.gif)
 
 #### Export Signed PSBT
 
@@ -87,10 +87,12 @@ After signing, users can export the signed psbt, we provide two ways for that:
 
 2. QRCode: here is the sample qr code of signed PSBT. 
 
-![signed-qrcode](./pics/signed_single_sig_psbt_qr.png)
+![signed-qrcode](./pics/sig_signed_psbt.gif)
 
 ## Multi-Sig
-We also support Multi-Sig for Bitcoin, currently we can use Keystone and ColdCard to set up Multi-Sig Wallet and perform multi-Sig, we have integrated with Electurm, Spector-Desktop and you can check this guide about how to use Keystone to perform multi-sig: https://btcguide.github.io/
+We also support Multi-Sig for Bitcoin, currently we can use Keystone and ColdCard to set up Multi-Sig Wallet and perform multi-Sig, we have integrated with Electurm, Spector-Desktop, BlueWallet, Sparrow etc.
+
+<!-- you can check this guide about how to use Keystone to perform multi-sig: https://btcguide.github.io/ -->
 
 #### Setup Multi-sig wallet
 
@@ -120,18 +122,18 @@ QR:
 
 These data can be exported via fil or QR Code, here is a sample file:
 
-    ```
-    # CoboVault Multisig setup file (created on C2202A77)
-    #
-    Name: CV_85C39000_2-3
-    Policy: 2 of 3
-    Derivation: m/48'/1'/0'/2'
-    Format: P2WSH
+```
+# Keystone Multisig setup file (created on 5271C071)
+#
+Name: CC-2-of-3
+Policy: 2 of 3
+Derivation: m/48'/0'/0'/2'
+Format: P2WSH
 
-    C2202A77: Vpub5nbpJQxCxQu9Nv5Effa1F8gdQsijrgk7KrMkioLs5DoRwb7MCjC3t1P2y9mXbnBgu29yL8EYexZqzniFdX7Xo3q8TuwkVAqbQpgxfAfrRiW
-    5271C071: Vpub5mpRVCzdkDTtCwH9LrfiiPonePjP4CZSakA4wynC4zVBVAooaykiCzjUniYbLpWxoRotGiXwoKGcHC5kSxiJGX1Ybjf2ioNommVmCJg7AV2
-    748CC6AA: Vpub5mcrJpVp9X8ZKsjyxwNu36SLRAWTMbqUtbmtcapahAtqVa66JtXhT4Uc9SVLN1nF782sPRRT2jbUbe7XzT8eue6vXsyDJKBvexGJHewyPxQ
-    ```
+748CC6AA: Zpub75fLJ4Y3UMxgoL2N6XLecqLj2Gt6JJ6U5t48PwB6bTEnWUgkhG3vavhnh8ZZwj3mA9acN7gU1NaqNXzvZyTKJrZLK7q7JqcamdoFhpgtizf
+C2202A77: Zpub75H51BQ73jcN2d8VcnScwnwKwrfRsA7UXL1LHmoxmXmGmFgCwxs4raek66GYG5sBdqnyS7whyR4c36Ky4x7Rfo7sVkfS7hvJNEUtX6LexH2
+5271C071: Zpub755NbzNDFus6egJM22CLBqjabHyNV8PEWJHGBkfCSXN2W8HRPKEA2MyxvycgD4AxNMcrTuxSwKYiNJ19h9PLURGZoWyC2Tutr7SWaU1swYK
+```
 
 - Name: the multi-sig wallet name
 - Policy: multi-sig policy like 2 of 2 , 2 of 3
@@ -147,13 +149,13 @@ QrCode (bc-ur):
 
 We use bc-ur to encode this sample file and here is an sample data:
 
-    ```
-    UR:BYTES/TYQL2GEQGDHKYM6KV96KCAPQF46KCARFWD5KWGRNV4682UPQVE5KCEFQ9P3HYETPW3JKGGR0DCSR2V3HX9PNQDE39Y9ZXZJWV9KK2W3QGDT97WP4GVENJVPSXP0NYTFNPFGX7MRFVDUN5GPJYPHKVGPNPFZX2UNFWESHG6T0DCAZQMF0XSUZWTE3YUHNQFE0XGNS53N0WFKKZAP6YPGRY46NFQ9Q5SEJXGCRYSFHXUAZQ4NSW43R2MNZWP99Z7ZR0PGH2W2WWC652ENXVYC5VWR8V3GHX6T2WFNKKD6TWFXKK6T0F3EN23R02FMKYD6DGD4YXVM5X9GRY7FED4VXYMJZVA6NYWTEFSUY2KT90PD8Z7NWD9RXGKPHTPHNXUFC236HW66KG9CKY5TSVAUXVSTXWFFXJ4C2X5ERWV2RXQMNZW3Q2EC82C34D4C9Y4JR0FJXK3Z5W3PHWJPEF3EXV6TF2PHKUE2SDFGRGS662DSKKSF5WAUKUSE50FTYY4JPDAHKZ7TTD9PH56J4DE54JCJVWPTHSM6JDA6YW62CWAH5K3MRFPPN266N0P55536CX9VKY6NXXF5K7NN0D4K4VM2RFFNNWS2KXG9RWDPCGDPNVS2P8GS9VUR4VG6K6CMJFFC9VUPETQU95JMNDFUHSA6WW5ENV56V2FQ4W4ZDVFC42ARZD46XXCTSV95YZAR32ESNVDJ2W3VXS4P5243NJ56KF38RZMJXXUURYU6S2FF9GVN2VF2KYEFHTPA9GWR9W4JNVAJCWDU5GJJTGFMX27Z8FFYX2AME2PU9ZZSDGUVWA
-    ```
+```
+    UR:BYTES/HKADWYCNCXGRIHKKJKJYJLJTIHCXGTKPJZJYINJKINIOCXJKIHJYKPJOCXIYINJZIHCXDEIAJPIHHSJYIHIECXJLJTCXECEYEMEHFXDYEMEHDTBKCNBKGLHSJNIHFTCXFXFXDPEYDPJLIYDPEOBKGDJLJZINIAKKFTCXEYCXJLIYCXEOBKFYIHJPINKOHSJYINJLJTFTCXJNDLEEETDIDLDYDIDLDYDIDLEYDIBKFGJLJPJNHSJYFTCXGDEYHGGUFDBKBKEMEEETFXFXENFPFPFTCXHTJOKPIDEMECIYGSGEEEHKEOGOGTKSIOJLGSEYGLENHDGSIHIAJSGSIMEYFLJYENGEGEENGOECJYEEETGDKTFWENIDGHFEJTHGGOIOJEISFLEOKOHSKOISJTISETHTHTKTIMEOJNFPESHSIAGLEMIOGOEHGLHSJSGLHDKNKOHTKKGHGRGEJPHTGSGREMJSEMGEJSIAHSJNIEJLFGISJOIOJYINKNIYBKFXEYEYDYEYFPEMEMFTCXHTJOKPIDEMECFDECEHFWGYEMEOIMIAGLEYIEETHFIAJTGUIAKTJTKTGRKTJPIYGMJKFPEMGOHDGSEHGSFDJNJLKSJNHDJNFLJNFGIOFXKTKSJKEEJPHSIHJEENENFLHKFLECJKFWIEJSJTKKGUEMKTISKKGMEEIAEOENGRKKEEKSEMGMIYJLEMJKHFJEIYGUEMISKOGEGLFEGOJYHDENGSIHKSFDEYBKECEYEMEHFXDYEMEHFTCXHTJOKPIDEMECECGLIDKNGLFYFGKPJKENIHIOGEGTEYEYFXGSFWJSIMHSIDFDKKGLHFETGDFEHGGEFDFLFWJEIYFXGUHDGLEYHGETFDGMGDGRFEFPEYGTKKKSKOKKIAIOFYEEFPKSGLGTIAJPGHKPKSGUKTGRHKINGLGEEHESISESGDGSGOGMFLHTJLHGKKFXEYGHKPJYJPEMGUHGHSGOEHJKKTHKGRBKHHIOCNOS
+```
 
 And here is the sample image: 
 
-![image](./pics/import_multisig_qr.png)
+![image](./pics/wallet_file_multisig.png)
 
 
 #### Sign PSBT
@@ -166,7 +168,7 @@ See the example unsigned multisig psbt file [example](./unsigned_multisig_psbt.p
 
 Unsigned psbt Qrcode(encoded in bc-ur):
 
-![unsinged PSBT](./pics/unsigned_multisig_psbt.gif)
+![unsinged PSBT](./pics/multi_unsigned_psbt.gif)
 
 #### Export Signed PSBT
 
@@ -176,8 +178,8 @@ See the example partially signed multisig psbt file [example](./part_f6a35290_52
 
 Signed multisig psbt qrcode(encoded in bc-ur):
 
-![signed psbt](./pics/signed_multisig_psbt.gif)
+![signed psbt](./pics/multi_signed_psbt.gif)
 
 ### FAQ
 
-TODO
+TBD
