@@ -24,7 +24,7 @@ UR:BYTES/HDTYCTLUAYAEAEAEAEAEAEAEVLHNBBVOYLGLPMDWDMSOTKGRGODEDWGETOGWGAMDNYSRSPS
 we are working an demo of the animated QRCodes. once finished we will open it on our Github.
 
 ## Integration
-we are creating the intergation guide these days, they will be opensourced in the coming days
+Please check this file for intergation: [intergation_guide](./Integration_guide.md)
 
 ## Hardware docs
 [hardware](https://github.com/KeystoneHQ/keystone-docs/tree/master/hardware): check the `hardware` folders for our hardware documents. Currently our schematic and BOM files are open source.

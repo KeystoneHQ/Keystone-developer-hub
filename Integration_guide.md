@@ -57,18 +57,19 @@ Watch-only wallet import of the extended public key from Keystone, Keystone supp
 
 - File: we are using [bitcoin output descriptor](https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md) to describe extended public key.
 
-Raw Data:
+**Raw Data**:
 ```
 Extended Public Key:
 xpub6C23Z5ywx3Ts5TauvBCsf6e1EstwJ2bMbgGQAQp98oftj6j2HgiWt3jEVvTMndkuE8V58Tcaj9E11kVcwbGCxf5UZpyxBvWKEjuRVRPKnaT
 Path: M/44'/0'/0'
 Script Type: `p2pkh`
 ```
-UR:
+**UR**:
 ```
 ur:crypto-account/oeadcyemrewytyaolytaadmutaaddloxaxhdclaxadatgawpashssbrdfsmubshgntsbnniaktfyvtqdrsmdfhpajntbvytnispagdplaahdcxbaspkkfmfmdrhyfdlprlcshylsvebdfyoxjpueiettdijysnrhgulnbyoypdkemuamtaaddyoyadlncsdwykaeykaeykaycyjnnthelrlswzrpss
 ```
 
+**QR**:
 ![qrcode](./pics/crypto_account_qr.png)
 
 #### Sign PSBT
@@ -100,21 +101,18 @@ Users can create a Multi-sig wallet by collecting all co-signers extended public
 
 1. Export the xpub of co-signer, it can be export via file or QR Code：
 
-Raw Data:
-
+**Raw Data**:
 ```
 ExtendedPublicKey: Zpub6vZyhw1ShkEwNBUvpwXnR6u9tSdkeNY7LpS9xqZy2g3Yq3wwbNaDNeiB2nrj17sB2NsBYeqCiQFBEWf5x5WjshDepfXjFDmgCnoT3ayhm5u
 Path: M/48'/0'/0'/2'
 xfp: 37b5eed4
 script Type: P2WSH
 ```
-
-UR：
+**UR**：
 ```
  ur:crypto-account/oeadcyemrewytyaolytaadmetaaddloxaxhdclaohnhffmvsbndslrfgclpfjejyatbdpebacnzokotofxntaoemvskpaowmryfnotfgaahdcxdlnbvecentssfsssgylnhkrstoytecrdlyadrekirfaybglahltalsrfcaeerobwamtaaddyoyadlocsdyykaeykaeykaoykaycyhkrpnddrckvoonsa
 ```
-
-QR:
+**QR**:
 ![qrcode](./pics/crypto_account_multi_qr.png)
 
 
@@ -145,7 +143,7 @@ the following items are master fingerprint and its extended public key
 
 The data format should be consistent with the file and all the fields should be filled.
 
-QrCode (bc-ur): 
+**QR**: 
 
 We use bc-ur to encode this sample file and here is an sample data:
 
