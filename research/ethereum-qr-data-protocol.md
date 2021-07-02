@@ -40,7 +40,7 @@ Since one QR Code can contain a limited size of data, the animated QR Codes shou
 ### Setup watch-only wallet by offline signer. 
 In order to let a watch-only wallet collect information from blockchain, the offline signer should provide public keys to watch-only wallets which generate addresses from these keys and query info like balance from blockchain. Currently most wallet service providers are following BIP-44 to generate the address. 
 
-In this case, offline signers will provide the extended public keys and derivation path. An UR Type called `hd-derived-key` defined here to encode these days. and the derivation path will be encoded as `crypto-keypath` which defined in in bc-ur
+In this case, offline signers will provide the extended public keys and derivation path. An UR Type called `crypto-public-key` defined here to encode these data. and the derivation path will be encoded as `crypto-keypath` which defined in in bc-ur
 
 #### CDDL for Key Path
 The following specification is written in Concise Data Definition Language [CDDL].
@@ -88,15 +88,12 @@ The following specification is written in Concise Data Definition Language [CDDL
 ; A hd derived key may be private or public, has an optional chain code, and
 ; may carry additional metadata about its use and derivation.
 ; origin should be how the key was derived.
-    hd-derived-key = (
-        ? is-private: bool .default false,   ; true if key is private, false if public
+    crypto-public-key = (
         key-data: key-data-bytes,
         ? chain-code: chain-code-bytes       ; omit if no further keys may be derived from this key
         ? origin: #6.304(crypto-keypath),    ; How the key was derived
     )
 
-
-    is-private = 2
     key-data = 3
     chain-code = 4
     origin = 6
@@ -104,8 +101,8 @@ The following specification is written in Concise Data Definition Language [CDDL
     uint8 = uint .size 1
     key-data-bytes = bytes .size 33
     chain-code-bytes = bytes .size 32
-
 ```
+If the chain code is provided is can be used to derive child keys and if the chain code is not provided it just an solo key and origin can be provided to indicate the derivation key path.
 
 #### Example:
 Test Data:
@@ -125,7 +122,7 @@ A303582103DA1A04CC1509CD716E215F1C8A3D1530A6B4EFDACB04D1641EAA117342EFA4B1045820
 UR:
 
 ```
-ur:hd-derived-key/otaxhdclaxtncyaasfbzassnjsjtclhecelefsbzdyolqzwstnsbaattieckpkbyjkfwwsoxpaaahdcxzcsgidsguetysrdwtabbottoyafedtgdgrskeestclnlkbcfjeveclcmdlfmrocaamtaaddyoeadlncsdwykcsfnykaeykaocytksafhfhgdlsvlpr
+ur:crypto-public-key/otaxhdclaxtncyaasfbzassnjsjtclhecelefsbzdyolqzwstnsbaattieckpkbyjkfwwsoxpaaahdcxzcsgidsguetysrdwtabbottoyafedtgdgrskeestclnlkbcfjeveclcmdlfmrocaamtaaddyoeadlncsdwykcsfnykaeykaocytksafhfhgdlsvlpr
 ```
 
 QR：
@@ -182,6 +179,7 @@ eth-address-bytes = bytes .size 20
 sign-data-bytes = bytes ; for unsigned transactions it will be the rlp encoding for unsigned transaction data and ERC 712 typed data it will be the bytes of json string.
 
 ```
+the sign-data: the unsigned transactions it will be the rlp encoding for unsigned transaction data and ERC 712 typed data it will be the bytes of json string. and raw bytes can also supported.
 
 #### Example
 TBD
