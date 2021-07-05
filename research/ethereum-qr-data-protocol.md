@@ -34,13 +34,13 @@ In order to work with offline signers, the watch-only wallet should follow the f
 
 ## Data transmission protocol
 
-Since one QR Code can contain a limited size of data, the animated QR Codes should be included for data transmission.The BC-UR defined by BlockchainCommons have published a series data transmission protocol called br-ur. It provides a basic method for encoding data to animated QR Code. this EIP will use the bc-ur and extend its current definition. all the data are encoded by CBOR and the CDDL is the data definition language for CBOR. For more info about bc-ur, please check out here.
+Since one QR Code can contain a limited size of data, the animated QR Codes should be included for data transmission.The BC-UR defined by BlockchainCommons have published a series data transmission protocol called br-ur. It provides a basic method for encoding data to animated QR Code. this EIP will use the bc-ur and extend its current definition. all the data are encoded by CBOR and the CDDL is the data definition language for CBOR. For more info about bc-ur, please check out (here)[https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-005-ur.md].
 
 
 ### Setup watch-only wallet by offline signer. 
 In order to let a watch-only wallet collect information from blockchain, the offline signer should provide public keys to watch-only wallets which generate addresses from these keys and query info like balance from blockchain. Currently most wallet service providers are following BIP-44 to generate the address. 
 
-In this case, offline signers will provide the extended public keys and derivation path. An UR Type called `crypto-public-key` defined here to encode these data. and the derivation path will be encoded as `crypto-keypath` which defined in in bc-ur
+In this case, offline signers will provide the extended public keys and derivation path. the UR Type called `crypto-hdkey` will be used to encode these data. and the derivation path will be encoded as `crypto-keypath` which defined in in bc-ur
 
 #### CDDL for Key Path
 The following specification is written in Concise Data Definition Language [CDDL].
@@ -82,27 +82,37 @@ The following specification is written in Concise Data Definition Language [CDDL
 ```
 
 #### CDDL for derivation key
+Since the main purpose of the key is to transfer public key data. the defination of crypto-hdkey will be kept on ly public keys. 
 For HD-derivation-key, which will present the key data and its derivation path.
 The following specification is written in Concise Data Definition Language [CDDL] and includes the crypto-keypath spec above.
 ```
-; A hd derived key may be private or public, has an optional chain code, and
+; A derived key must be public, has an optional chain code, and
 ; may carry additional metadata about its use and derivation.
-; origin should be how the key was derived.
-    crypto-public-key = (
-        key-data: key-data-bytes,
-        ? chain-code: chain-code-bytes       ; omit if no further keys may be derived from this key
-        ? origin: #6.304(crypto-keypath),    ; How the key was derived
-    )
+; To maintain isomorphism with [BIP32] and allow keys to be derived from
+; this key `chain-code`, `origin`, and `parent-fingerprint` must be present.
+; If `origin` contains only a single derivation step and also contains `source-fingerprint`,
+; then `parent-fingerprint` MUST be identical to `source-fingerprint` or may be omitted.
+derived-key = (
+	key-data: key-data-bytes,
+	? chain-code: chain-code-bytes       ; omit if no further keys may be derived from this key
+	? origin: #6.304(crypto-keypath),    ; How the key was derived
+	? name: text,                        ; A short name for this key.
+)
 
-    key-data = 3
-    chain-code = 4
-    origin = 6
+; If the `use-info` field is omitted, defaults (mainnet BTC key) are assumed.
+; If `cointype` and `origin` are both present, then per [BIP44], the second path
+; component's `child-index` must match `cointype`.
 
-    uint8 = uint .size 1
-    key-data-bytes = bytes .size 33
-    chain-code-bytes = bytes .size 32
+key-data = 3
+chain-code = 4
+origin = 6
+name = 9
+
+uint8 = uint .size 1
+key-data-bytes = bytes .size 33
+chain-code-bytes = bytes .size 32
 ```
-If the chain code is provided is can be used to derive child keys and if the chain code is not provided it just an solo key and origin can be provided to indicate the derivation key path.
+If the chain-code is provided is can be used to derive child keys and if the chain code is not provided it just an solo key and origin can be provided to indicate the derivation key path.
 
 #### Example:
 Test Data:
