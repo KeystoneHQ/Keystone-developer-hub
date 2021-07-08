@@ -169,11 +169,11 @@ eth-raw-bytes=3;
 
 
 eth-sign-request = (
-    request-id: uuid, ; the uuid for this signing request
     sign-data: sign-data-bytes, ; sign-data is the data to be signed by offline signer, currently it can be unsigned transaction or typed data
     data-type: #3.401(sign-data-type),
     chain-id: int .default 1,
     derivation-path: #5.304(crypto-keypath), ;the key path for signing this request
+    ?request-id: uuid, ; the uuid for this signing request
     ? address: eth-address-bytes,            ;verification purpose for the address of the signing key
 )
 
