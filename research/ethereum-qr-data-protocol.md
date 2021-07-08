@@ -143,6 +143,8 @@ For sending the unsigned data from a watch-only wallet to an offline signer. a n
 
 #### CDDL for Eth Sign Request.
 The following specification is written in Concise Data Definition Language [CDDL].
+UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.37, per the IANA CBOR Tags Registry.
+
 
 ```
 ; Metadata for the signing request for ethereum.
@@ -167,7 +169,7 @@ eth-raw-bytes=3;
 
 
 eth-sign-request = (
-    request-id: uint32, ; the uuid for this signing request
+    request-id: uuid, ; the uuid for this signing request
     sign-data: sign-data-bytes, ; sign-data is the data to be signed by offline signer, currently it can be unsigned transaction or typed data
     data-type: #3.401(sign-data-type),
     chain-id: int .default 1,
@@ -202,7 +204,7 @@ The following specification is written in Concise Data Definition Language [CDDL
 
 ```
 eth-signature  = (
-    request-id: uint32,
+    request-id: uuid,
     signature: eth-signature-bytes
 )
 
