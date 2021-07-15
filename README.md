@@ -27,18 +27,18 @@ we are working an demo of the animated QRCodes. once finished we will open it on
 Please check this file for intergation: [intergation_guide](./Integration_guide.md)
 
 ## Hardware docs
-[hardware](https://github.com/KeystoneHQ/keystone-docs/tree/master/hardware): check the `hardware` folders for our hardware documents. Currently our schematic and BOM files are open source.
+[hardware](./hardware): check the `hardware` folders for our hardware documents. Currently our schematic and BOM files are open source.
 
 ## Application docs
-[applications](https://github.com/KeystoneHQ/keystone-docs/tree/master/application): check the `application` folders to see our applications documents.
+[applications](./application): check the `application` folders to see our applications documents.
 
 ## Secure Element docs
-[se](https://github.com/KeystoneHQ/keystone-docs/tree/master/se): check the `se` folders to see our secure element documents.
+[se](./se): check the `se` folders to see our secure element documents.
 
 ## Audit-report docs
 The Keystone hardware wallet is simply relaunched from the Cobo Vault branding so both the code base and infrastructure are the same. For more information, Please see the Audit Report by PeckShield from mid 2020.
 
-[audit-report](https://github.com/KeystoneHQ/keystone-docs/tree/master/audit-report): check the `audit-report` folders for audit report documents.
+[audit-report](./audit-report): check the `audit-report` folders for audit report documents.
 
 ## Don't Trust, Verify!
 `Don't Trust Verify`. Check our documentation to learn about how you can verify our firmware.
