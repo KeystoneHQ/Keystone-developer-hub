@@ -166,6 +166,7 @@ sign-data-type = {
 eth-transaction-data = 1; for unsigned transaction if will be the rlp encoding bytes
 eth-typed-data = 2;
 eth-raw-bytes=3;
+eth-typed-transaction=4;
 
 
 eth-sign-request = (
@@ -208,7 +209,7 @@ eth-signature  = (
     signature: eth-signature-bytes
 )
 
-eth-signature-bytes = bytes .size 65; the signature of the signing request (v,r,s)
+eth-signature-bytes = bytes .size 65; the signature of the signing request (r,v,s)
 ```
 
 ## Rationale
