@@ -26,7 +26,7 @@ There are a lot of existing libraries which currently can be used to scan qr cod
 For IOS and Android App we can use their native libraries to scan QR Codes.
   
 ## BTC Only Firmware
-We also provide a [BTC-only Firmware](https://github.com/KeystoneHQ/Keystone-cold-app-btc) for those who only use Bitcoin. You can get the latest firmware from [here](https://keyst.one/downloads), For Bitcoin, we follow the BIP174, aka PSBT to encode transactions. For those who are not familiar with BIP174 and PSBT, those can find here are some good reference guides:
+We also provide a [BTC-only Firmware](https://github.com/KeystoneHQ/Keystone-cold-app-btc) for those who only use Bitcoin. You can get the latest firmware from [here](https://keyst.one/firmware), For Bitcoin, we follow the BIP174, aka PSBT to encode transactions. For those who are not familiar with BIP174 and PSBT, those can find here are some good reference guides:
 
 - https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki
 - https://bitcointechweekly.com/front/bip-174-psbt-partially-signed-bitcoin-transactions/
