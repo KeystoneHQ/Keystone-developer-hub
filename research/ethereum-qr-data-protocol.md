@@ -15,6 +15,7 @@ Currently more and more users would like to use complete offline signers like ha
 - Transparency and Security: Compared to usb or bluetooth, user can easily decode the data in QR Code (with the help of some tools), it can let user know what they are going to sign. this Transparency can provide more security.
 - Better Compatibility: Compared to usb and Bluetooth, the QR Code data transmission have better compatibility, normally it will not be break by other software change like browser upgrade. system upgrade etc.
 - Better User experience: The QR Code data transmission can provide more better user experience compare to usb, bluetooth and file transfer especially on the mobile environment.
+- Smaller attack surface. USB and Bluetooth have a higher attack surface than QR-Codes.
 
 Because of these advantages, the QR Code data transmission is a better choice. But currently there is no standard for how the offline signer work with watch-only wallet and how the data can be encoded.
 This EIP presents a standard process and data transmission protocol for offline signers to work with the watch-only wallet.
