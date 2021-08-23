@@ -21,7 +21,7 @@ shasum -a 256 V1.2.0.zip
   
   2. Use the public key defined in the code to unzip upgrade package update.zip
   
-  [public key for all-coin version](https://github.com/KeystoneHQ/keystone-cold-app/blob/master/app/build.gradle#L112) 
+  [public key for multi-coin version](https://github.com/KeystoneHQ/keystone-cold-app/blob/master/app/build.gradle#L112) 
   
   [public key for btc-only version](https://github.com/KeystoneHQ/keystone-cold-app-btc/blob/master/app/build.gradle#L112) 
   
