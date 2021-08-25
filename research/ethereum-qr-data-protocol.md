@@ -176,7 +176,8 @@ eth-sign-request = (
     chain-id: int .default 1,
     derivation-path: #5.304(crypto-keypath), ;the key path for signing this request
     ?request-id: uuid, ; the uuid for this signing request
-    ? address: eth-address-bytes,            ;verification purpose for the address of the signing key
+    ?address: eth-address-bytes,            ;verification purpose for the address of the signing key
+    ?origin: text  ;the origin of this sign request, like a dapp
 )
 
 request-id = 1
@@ -186,9 +187,9 @@ data-type = 3
 chain-id = 4 ;it will be the chain id of ethereum related blockchain
 derivation-path = 5
 address = 6
+origin = 7
 
 eth-address-bytes = bytes .size 20
-
 
 sign-data-bytes = bytes ; for unsigned transactions it will be the rlp encoding for unsigned transaction data and ERC 712 typed data it will be the bytes of json string.
 
@@ -210,7 +211,7 @@ eth-signature  = (
     signature: eth-signature-bytes
 )
 
-eth-signature-bytes = bytes .size 65; the signature of the signing request (r,v,s)
+eth-signature-bytes = bytes .size 65; the signature of the signing request (r,s,v)
 ```
 
 ## Rationale
