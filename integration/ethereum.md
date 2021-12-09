@@ -1,5 +1,5 @@
 # Keystone Web3 Mode (Ethereum) Integration Guide.
-The goal of Keystone hardware wallet is to be the good signer to protect users' private keys, so Keystone would like to work with existing wallets and applications. Now, Keystone have provide with Web3 Mode which have worked with a lot of Ethereum wallets, like Metamask and a lot Dapps like Sushi Swap, Yearn, Gnosis Safe and other well known Dapps.
+The goal of Keystone hardware wallet is to be the good signer to protect users' private keys, so Keystone would like to work with existing wallets and applications. Now Keystone have provide the Web3 Mode which have worked with a lot of Ethereum wallets, like Metamask and a lot Dapps like Sushi Swap, Yearn, Gnosis Safe and other well known Dapps.
 
 Now we have proposed an EIP for the QR Code data transmission. Here is the link for the [EIP](https://github.com/ethereum/EIPs/pull/4527)
 
@@ -18,7 +18,7 @@ We use the `crypto-hdkey` to encode the extended public key and its derivation p
 
 Here is the sample QR Code image of extended public key.
 
-#### library
+#### Library
 we have published the library for help developer to extract the extended public key from the QRCode. 
 
 Please check the library here：
@@ -27,14 +27,14 @@ ur-registry-eth: [source code](https://github.com/KeystoneHQ/keystone-airgaped-b
 
 npm package: [`@keystonehq/bc-ur-registry-eth`](https://www.npmjs.com/package/@keystonehq/bc-ur-registry-eth)
 
-#### Sample Code
+#### Sample
 Install the package `@keystonehq/bc-ur-registry-ethereum`
 
 ```js
 yarn add @keystonehq/bc-ur-registry-ethereum
 ```
 
-Usage:
+sample code:
 
 ```js
 
@@ -54,24 +54,231 @@ if(decoder.isSuccess()) {
 }
 ```
 
-### Sending the unsigned data from the watch-only wallet to the offline signer
+### Sending the unsigned data from the wallet to Keystone
+For sending the unsigned data to Keystone, the data have to be encoded into the QR Codes. We will use the new UR Type `eth-sign-request` for this. More info about the `eth-sign-request`,please check the `Specification` section of the [EIP](https://github.com/ethereum/EIPs/pull/4527)
 
-#### library
+When generating an eth-sign-request, we current defined four types of the unsigned data. 
+```ts
+enum DataType {
+    transaction = 1, // For the legacy transaction, the rlp encoding of the unsigned data.
+    typedData = 2, // For the EIP-712 typed data. Bytes for the json string.
+    personalMessage = 3, // For the personal message signing. 
+    typedTransaction = 4 // For the typed transaction, like the EIP-1559 transaction.
+}
+```
 
-#### Sample Code
+And for one sign request, these fields should be filled.
 
-#### Sample Data
+```ts
+signData: Buffer, // the unsigend data bytes, for
+signDataType: DataType, // supported data type
+hdPath: string,  // derivation path for the signign key
+xfp: string, // master fingerprint provided by Keystone when syncing with wallet
+uuidString?: string,  // uuid for the request
+chainId?: number, // chain id for this signing, optional
+address?: string, // address for request this signing, optional
+origin?: string // source of the request, wallet name etc, optional
+```
+
+#### Library
+We have also provided the `eth-sign-request` in the `ur-registry-eth` library.
+
+#### Sample
+
+we will use the `@ethereumjs` to show how to generate the request
+
+##### Legacy Transaction
+
+```ts
+import { Transaction } from '@ethereumjs/tx';
+import Common, { Hardfork } from '@ethereumjs/common';
+import { BN } from 'ethereumjs-util';
+import {
+    CryptoHDKey,
+    generateAddressfromXpub,
+    findHDpatfromAddress,
+    EthSignRequest,
+    DataType,
+    ETHSignature,
+} from '@keystonehq/bc-ur-registry-eth';
+
+const _txParams = {
+    to: "0x121212121212121212121212", 
+    gasLimit: 200000,
+    gasPrice: 120000000000,
+    data: "0x",
+    nonce: 1,
+    value: txParams.value,
+};
+
+const tx = Transaction.fromTxData(_txParams, { common: this._common, freeze: false });
+        
+tx.v = new BN(tx.common.chainId());
+        
+tx.r = new BN(0);
+        
+tx.s = new BN(0);
+
+const unsignedBuffer = tx.serialize(); // generate the unsinged transaction bytes
+const requestId = uuid.v4();
+const addressPath = "M/44'/60'/0'/0/0"
+
+const ethSignRequest = EthSignRequest.constructETHRequest(
+    unsignedBuffer,
+    DataType.transaction,
+    addressPath,
+    "12345678", // master fingerprint
+    requestId,
+    1, // chainId
+    "0xfromaddress",
+);
+
+const eachChunkNumberInEachQR = 400; // specify the each chunk Number in single QR Code
+
+// render each chunck of data in sign QR Code
+
+while (true) {
+    renderQR(ethSignRequest.toUREncoder(eachChunkNumberInEachQR).nextPart());
+}
+```
+
+##### Typed Transaction
+We will use the EIP-1559 transaction as an example.
+
+``` ts
+import { Transaction } from '@ethereumjs/tx';
+import Common, { Hardfork } from '@ethereumjs/common';
+import { BN } from 'ethereumjs-util';
+import {
+    CryptoHDKey,
+    generateAddressfromXpub,
+    findHDpatfromAddress,
+    EthSignRequest,
+    DataType,
+    ETHSignature,
+} from '@keystonehq/bc-ur-registry-eth';
+
+const common = Common.forCustomChain('mainnet', { chainId: this._networkId }, Hardfork.London);
+const eip1559Tx = FeeMarketEIP1559Transaction.fromTxData(txParams, { common });
+const unsignedBuffer = Buffer.from(eip1559Tx.getMessageToSign(false)); // generate the unsinged transaction bytes
+const requestId = uuid.v4();
+const addressPath = "M/44'/60'/0'/0/0"
+
+const ethSignRequest = EthSignRequest.constructETHRequest(
+    unsignedBuffer,
+    DataType.typedTransaction,
+    addressPath,
+    "12345678", // master fingerprint
+    requestId,
+    1, // chainId
+    "0xfromaddress",
+);
+
+const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
+
+// render each chunck of data in sign QR Code
+
+while (true) {
+    renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
+}
+```
+
+##### EIP-712 TypedData
+```ts
+import {
+    CryptoHDKey,
+    generateAddressfromXpub,
+    findHDpatfromAddress,
+    EthSignRequest,
+    DataType,
+    ETHSignature,
+} from '@keystonehq/bc-ur-registry-eth';
+
+const typeData = "{}" // json string the typed data
+const dataHex = Buffer.from(typedData, 'utf-8');
+const requestId = uuid.v4();
+const addressPath = "M/44'/60'/0'/0/0"
+const ethSignRequest = EthSignRequest.constructETHRequest(
+    dataHex,
+    DataType.typedData,
+    addressPath,
+    "12345678", // master fingerprint
+    requestId,
+    undefined,
+    "0xfromaddress",
+);
+
+const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
+
+// render each chunck of data in sign QR Code
+
+while (true) {
+    renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
+}
+```
+
+##### Message Signing Request
+```ts
+import {
+    EthSignRequest,
+    DataType,
+    ETHSignature,
+} from '@keystonehq/bc-ur-registry-eth';
 
 
-### The signature provided by offline signers to watch-only wallets
+const message = "68656c6c6f" // hex string of the message "hello"
+const dataHex = Buffer.from(message, 'hex');
+const requestId = uuid.v4();
+const addressPath = "M/44'/60'/0'/0/0"
+const ethSignRequest = EthSignRequest.constructETHRequest(
+    dataHex,
+    DataType.typedData,
+    addressPath,
+    "12345678", // master fingerprint
+    requestId,
+    undefined,
+    "0xfromaddress",
+);
 
+const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-#### library
+// render each chunck of data in sign QR Code
 
-#### Sample Code
+while (true) {
+    renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
+}
+```
 
-#### Sample Data
+### The signature provided by Keystone to the wallet
+After Keyston sigend the request, it will provide signature to the wallet which can extract the signature either construct the transaction or verify the signature. we provide an new UR type `eth-signature` for this. More info about the `eth-signature`,please check the `Specification` section of the [EIP](https://github.com/ethereum/EIPs/pull/4527)
 
+##### Library
+We have also provided the `eth-signature` in the `ur-registry-eth` library.
 
+##### Sample
+```ts
+import {
+    URDecoder,
+    ETHSignature,
+} from '@keystonehq/bc-ur-registry-eth';
 
-## Dapp Integration
+const decoder = new URDecoder();
+
+// sinature data from the QR Code
+const ur = 'ur:eth-signature/oeadtpdagdndcawmgtfrkigrpmndutdnbtkgfssbjnaohdfptywtosrftahprdctrkbegylogdghjkbafhflamfwlohghtpsseaozorsimnybbtnnbiynlckenbtfmeeamsabnaeoxasjkwswfkekiieckhpecckssptndzelnwfecylbwdlsgvazt';
+
+decoder.receivePart(ur)
+
+if(decoder.isSuccess()) {
+    const ur = decoder.resultUR();
+    const ethSignature = ETHSignature.fromCBOR(ur.cbor);
+    const requestIdBuffer = ethSignature.getRequestId();
+    const signature = ethSignature.getSignature(); // it will return the signature r,s,v
+    const r = signature.slice(0, 32);
+    const s = signature.slice(32, 64);
+    const v = signature.slice(64, 65);
+} else {
+    // logic for error handling
+}
+
+```
