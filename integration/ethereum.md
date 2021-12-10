@@ -135,10 +135,12 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const eachChunkNumberInEachQR = 400; // specify the each chunk Number in single QR Code
 
-// render each chunk of data in sign QR Code
+// get the ur decoder
+const urDecoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
 
+// render each chunk of data in sign QR Code
 while (true) {
-    renderQR(ethSignRequest.toUREncoder(eachChunkNumberInEachQR).nextPart());
+    renderQR(urDecoder.nextPart());
 }
 ```
 
@@ -176,10 +178,12 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// render each chunk of data in sign QR Code
+// get the ur decoder
+const urDecoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
 
+// render each chunk of data in sign QR Code
 while (true) {
-    renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
+    renderQR(urDecoder.nextPart());
 }
 ```
 
@@ -210,10 +214,12 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// render each chunk of data in sign QR Code
+// get the ur decoder
+const urDecoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
 
+// render each chunk of data in sign QR Code
 while (true) {
-    renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
+    renderQR(urDecoder.nextPart());
 }
 ```
 
@@ -242,10 +248,12 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// render each chunk of data in sign QR Code
+// get the ur decoder
+const urDecoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
 
+// render each chunk of data in sign QR Code
 while (true) {
-    renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
+    renderQR(urDecoder.nextPart());
 }
 ```
 
