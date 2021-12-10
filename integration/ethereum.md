@@ -36,21 +36,23 @@ yarn add @keystonehq/bc-ur-registry-ethereum
 
 sample code:
 
-```js
-
+```ts
 // this is the extended public key data from the QR Code
 const UR = "UR:CRYPTO-HDKEY/PTAOWKAXHDCLAXAMLSDSDSFSYLLTFLGAAYLDFTBNMWRDPAHLPTJSFDOSDPONAAEENYHKMOYLREJLGOAAHDCXSEJORFDRBNSKKBESEHPMLDMTCYPMRSBNDRKBIDKIFLSSWLTIESDRHKTSZTHGHHINAHTAADEHOEADCSFNAOAEAMTAADDYOTADLNCSDWYKCSFNYKAEYKAOCYZCTEHDWKAXAXATTAADDYOEADLRAEWKLAWKAXAEAYCYPFKPEOASASISGRIHKKJKJYJLJTIHBKJOHSIAIAJLKPJTJYDMJKJYHSJTIEHSJPIEKBJZJTYN"
  
 import { URRegistryDecoder } from '@keystonehq/bc-ur-registry-eth'
 
 const decoder = new URRegistryDecoder();
-decoder.receivePart(ur);
+
+decoder.receivePart(UR);
 if(decoder.isSuccess()) {
     const cryptoHDkey = decoder.resultRegistryType();
     const path = cryptoHDkey.getOrigin().getPath()); // 44'/60'/0'
     const extenedPubKey = cryptoHDKey.getBip32Key(); //xpub6CwzeNGArLq2XuEwGtycrise31bP3dZe1cim6urwWvyJ4D4EStJtp7ppZfHbi8pQTiEyapmGQS7NMrEarbDwPdjNMkGKSQEtpXytCWcQvH4
-} else {
+    return
+} else if(decoder.isError()){
     // logic for error handling
+    throw new Error() 
 }
 ```
 
@@ -285,10 +287,10 @@ if(decoder.isSuccess()) {
     const r = signature.slice(0, 32);
     const s = signature.slice(32, 64);
     const v = signature.slice(64, 65);
-} else {
+} else if(decoder.isError()){
     // logic for error handling
+    throw new Error() 
 }
-
 ```
 
 ## Dapp Integration
