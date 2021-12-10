@@ -1,5 +1,5 @@
 # Keystone Web3 Mode (Ethereum) Integration Guide.
-The goal of Keystone hardware wallet is to be the good signer to protect users' private keys, so Keystone would like to work with existing wallets and applications. Now Keystone have provide the Web3 Mode which have worked with a lot of Ethereum wallets, like Metamask and a lot Dapps like Sushi Swap, Yearn, Gnosis Safe and other well known Dapps.
+The goal of the Keystone hardware wallet is to be a good signer to protect users' private keys, so Keystone would like to work with existing wallets and applications. Now Keystone has provided the Web3 Mode which has worked with a lot of Ethereum wallets, like Metamask and a lot of Dapps like Sushi Swap, Yearn, Gnosis Safe, and other well known Dapps.
 
 Now we have proposed an EIP for the QR Code data transmission. Here is the link for the [EIP](https://github.com/ethereum/EIPs/pull/4527)
 
@@ -9,17 +9,17 @@ In order to work with Keystone, the wallet should follow the following process.
 1. Keystone provides the public key information to the wallet to generate addresses, sync balances and etc via QR Codes.
 2. The wallet generates the unsigned data and sends it to Keystone for signing via QR Code, data that can include transactions, typed data, and etc.
 3. Keystone signs the data and provides a signature back to the wallet via QR Code.
-4. The wallet receives the signature, constructs the signed data (transaction) and performs the following activities like broadcasting the transaction etc.
+4. The wallet receives the signature, constructs the signed data (transaction), and performs the following activities like broadcasting the transaction, etc.
 
 ### Setting up the wallet with Keystone
-In order to allow a wallet to collect information from the Ethereum blockchain, Keystone would need to provide the extended public key to the watch-only wallet in which the wallet will use them to generate addresses and query the necessary information from the Ethereum blockchain.
+In order to allow a wallet to collect information from the Ethereum blockchain, Keystone would need to provide the extended public key to the watch-only wallet in which the wallet will use to generate addresses and query the necessary information from the Ethereum blockchain.
 
-We use the `crypto-hdkey` to encode the extended public key and its derivation path, if you would like to know more about this,please check the `Specification` section of the [EIP](https://github.com/ethereum/EIPs/pull/4527)
+We use the `crypto-hdkey` to encode the extended public key and its derivation path, if you would like to know more about this, please check the `Specification` section of the [EIP](https://github.com/ethereum/EIPs/pull/4527)
 
-Here is the sample QR Code image of extended public key.
+Here is the sample QR Code image of the extended public key.
 
 #### Library
-we have published the library for help developer to extract the extended public key from the QRCode. 
+we have published the library to help developers to extract the extended public key from the QRCode. 
 
 Please check the library here：
 
@@ -55,7 +55,7 @@ if(decoder.isSuccess()) {
 ```
 
 ### Sending the unsigned data from the wallet to Keystone
-For sending the unsigned data to Keystone, the data have to be encoded into the QR Codes. We will use the new UR Type `eth-sign-request` for this. More info about the `eth-sign-request`,please check the `Specification` section of the [EIP](https://github.com/ethereum/EIPs/pull/4527)
+For sending the unsigned data to Keystone, the data have to be encoded into the QR Codes. We will use the new UR Type `eth-sign-request` for this. For more info about the `eth-sign-request`, please check the `Specification` section of the [EIP](https://github.com/ethereum/EIPs/pull/4527)
 
 When generating an eth-sign-request, we current defined four types of the unsigned data. 
 ```ts
@@ -135,7 +135,7 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const eachChunkNumberInEachQR = 400; // specify the each chunk Number in single QR Code
 
-// render each chunck of data in sign QR Code
+// render each chunk of data in sign QR Code
 
 while (true) {
     renderQR(ethSignRequest.toUREncoder(eachChunkNumberInEachQR).nextPart());
@@ -176,7 +176,7 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// render each chunck of data in sign QR Code
+// render each chunk of data in sign QR Code
 
 while (true) {
     renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
@@ -210,7 +210,7 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// render each chunck of data in sign QR Code
+// render each chunk of data in sign QR Code
 
 while (true) {
     renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
@@ -242,7 +242,7 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// render each chunck of data in sign QR Code
+// render each chunk of data in sign QR Code
 
 while (true) {
     renderQR(ethSignRequest.toUREncoder(ChunkNumberInEachQR).nextPart());
@@ -250,7 +250,7 @@ while (true) {
 ```
 
 ### The signature provided by Keystone to the wallet
-After Keyston sigend the request, it will provide signature to the wallet which can extract the signature either construct the transaction or verify the signature. we provide an new UR type `eth-signature` for this. More info about the `eth-signature`,please check the `Specification` section of the [EIP](https://github.com/ethereum/EIPs/pull/4527)
+After Keystone signed the request, it will provide a signature to the wallet which can extract the signature either construct the transaction or verify the signature. we provide a new UR type `eth-signature` for this. For more info about the `eth-signature`, please check the `Specification` section of the [EIP](https://github.com/ethereum/EIPs/pull/4527)
 
 ##### Library
 We have also provided the `eth-signature` in the `ur-registry-eth` library.
@@ -282,3 +282,12 @@ if(decoder.isSuccess()) {
 }
 
 ```
+
+## Dapp Integration
+If you are a Dapp developer and would like to integrate with Keystone directly, we have published several packages to help you.
+
+### [Onboard](https://www.npmjs.com/package/bnc-onboard)
+If you have used onboard.js for wallet connection, Keystone has integrated with onboard.js since `1.32.0-0.2.0`. Install the latest version of onboard.js, you can enable Keystone as a wallet option.
+
+### [Keystone-connector](https://www.npmjs.com/package/@keystonehq/keystone-connector)
+If you are using web3-react or something like it for the wallet integration,  we have published the `keystone-connector` for help. You can follow the [Readme](https://github.com/KeystoneHQ/keystone-airgaped-base/tree/master/packages/keystone-connector) for integration
