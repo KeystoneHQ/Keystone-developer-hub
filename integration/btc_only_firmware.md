@@ -70,7 +70,7 @@ ur:crypto-account/oeadcyemrewytyaolytaadmutaaddloxaxhdclaxadatgawpashssbrdfsmubs
 ```
 
 **QR**:
-![qrcode](./pics/crypto_account_qr.png)
+![qrcode](../pics/crypto_account_qr.png)
 
 #### Sign PSBT
 We use psbt to encode the unsigned transaction and we provide two ways for that:
@@ -78,17 +78,17 @@ We use psbt to encode the unsigned transaction and we provide two ways for that:
 
 2. QRCode: We use [crypto-psbt](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-006-urtypes.md#partially-signed-bitcoin-transaction-psbt-crypto-psbt) to encode the psbt data. Here is a sample QRCode Image. 
 
-![image](./pics/sig_unsigned_psbt.gif)
+![image](../pics/sig_unsigned_psbt.gif)
 
 #### Export Signed PSBT
 
 After signing, users can export the signed psbt, we provide two ways for that:
 
-1. Signed psbt file: see the example signed psbt file [example](./signed_41262fb9.psbt)
+1. Signed psbt file: see the example signed psbt file [example](../signed_41262fb9.psbt)
 
 2. QRCode: here is the sample qr code of signed PSBT. 
 
-![signed-qrcode](./pics/sig_signed_psbt.gif)
+![signed-qrcode](../pics/sig_signed_psbt.gif)
 
 ## Multi-Sig
 We also support Multi-Sig for Bitcoin, currently we can use Keystone and ColdCard to set up Multi-Sig Wallet and perform multi-Sig, we have integrated with Electurm, Spector-Desktop, BlueWallet, Sparrow etc.
@@ -113,7 +113,7 @@ script Type: P2WSH
  ur:crypto-account/oeadcyemrewytyaolytaadmetaaddloxaxhdclaohnhffmvsbndslrfgclpfjejyatbdpebacnzokotofxntaoemvskpaowmryfnotfgaahdcxdlnbvecentssfsssgylnhkrstoytecrdlyadrekirfaybglahltalsrfcaeerobwamtaaddyoyadlocsdyykaeykaeykaoykaycyhkrpnddrckvoonsa
 ```
 **QR**:
-![qrcode](./pics/crypto_account_multi_qr.png)
+![qrcode](../pics/crypto_account_multi_qr.png)
 
 
 2. Import Multi-sig wallet, Multi-sig wallet data format
@@ -153,7 +153,7 @@ We use bc-ur to encode this sample file and here is an sample data:
 
 And here is the sample image: 
 
-![image](./pics/wallet_file_multisig.png)
+![image](../pics/wallet_file_multisig.png)
 
 
 #### Sign PSBT
@@ -166,7 +166,7 @@ See the example unsigned multisig psbt file [example](./unsigned_multisig_psbt.p
 
 Unsigned psbt Qrcode(encoded in bc-ur):
 
-![unsinged PSBT](./pics/multi_unsigned_psbt.gif)
+![unsinged PSBT](../pics/multi_unsigned_psbt.gif)
 
 #### Export Signed PSBT
 
@@ -176,7 +176,7 @@ See the example partially signed multisig psbt file [example](./part_f6a35290_52
 
 Signed multisig psbt qrcode(encoded in bc-ur):
 
-![signed psbt](./pics/multi_signed_psbt.gif)
+![signed psbt](../pics/multi_signed_psbt.gif)
 
 ### FAQ
 
