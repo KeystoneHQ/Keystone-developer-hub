@@ -24,7 +24,7 @@ UR:BYTES/HDTYCTLUAYAEAEAEAEAEAEAEVLHNBBVOYLGLPMDWDMSOTKGRGODEDWGETOGWGAMDNYSRSPS
 we are working an demo of the animated QRCodes. once finished we will open it on our Github.
 
 ## Integration
-Please check this folder for intergation: [Integration](./Integration/index.md)
+Please check this folder for intergation: [Integration](./integration/index.md)
 
 ## Hardware docs
 [hardware](./hardware): check the `hardware` folders for our hardware documents. Currently our schematic and BOM files are open source.
