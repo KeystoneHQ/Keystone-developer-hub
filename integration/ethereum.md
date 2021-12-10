@@ -3,6 +3,8 @@ The goal of the Keystone hardware wallet is to provide users with a reliable and
 
 We have now proposed an EIP for the QR Code data transmission. Here is the link for the [EIP](https://github.com/ethereum/EIPs/pull/4527)
 
+## Firmware Requirement
+You need Keystone Multi-coin Firmware M-5.0 or above for the integration. Find it from [here](https://keyst.one/firmware?locale=en)
 
 ## Wallet Integration
 In order to work with Keystone, a wallet can follow the following process:
