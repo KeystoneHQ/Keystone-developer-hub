@@ -120,10 +120,12 @@ key_exp = #6.303(crypto-hdkey)
 accounts = {
     master-fingerprint: uint32, ; Master fingerprint (fingerprint for the master public key as per BIP32)
     keys: [+ key_exp] ; Different account keys for a offline signer.
+    origin?: text ; Indicates the origin of these accounts, e.g. 'Keystone'
 }
 
 master-fingerprint = 1
 keys = 2
+origin = 3
 ```
 
 #### Example:
