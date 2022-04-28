@@ -86,10 +86,6 @@ The following specification is written in Concise Data Definition Language [CDDL
 ```
 ; A derived key must be public, has an optional chain code, and
 ; may carry additional metadata about its use and derivation.
-; To maintain isomorphism with [BIP32] and allow keys to be derived from
-; this key `chain-code`, `origin`, and `parent-fingerprint` must be present.
-; If `origin` contains only a single derivation step and also contains `source-fingerprint`,
-; then `parent-fingerprint` MUST be identical to `source-fingerprint` or may be omitted.
 derived-key = (
 	key-data: key-data-bytes,
 	? chain-code: chain-code-bytes       ; omit if no further keys may be derived from this key
@@ -97,16 +93,11 @@ derived-key = (
 	? name: text,                        ; A short name for this key.
 )
 
-; If the `use-info` field is omitted, defaults (mainnet BTC key) are assumed.
-; If `cointype` and `origin` are both present, then per [BIP44], the second path
-; component's `child-index` must match `cointype`.
-
 key-data = 3
 chain-code = 4
 origin = 6
 name = 9
 
-uint8 = uint .size 1
 key-data-bytes = bytes .size 33
 chain-code-bytes = bytes .size 32
 ```
@@ -156,7 +147,8 @@ sol-sign-request = (
     sign-data: bytes,
     derivation-path: #5.304(crypto-keypath), ;the key path for signing this request
     ?origin: text,
-    ?address: bytes,
+    ?address: bytes
+    ?type: int .default sign-type-transaction, ;sign type identifier
 )
 
 request-id = 1
@@ -164,6 +156,10 @@ sign-data = 2
 derivation-path = 3
 address = 4
 origin = 5
+type = 6
+
+sign-type-transaction = 1
+sign-type-message = 2
 ```
 
 #### Example
