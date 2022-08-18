@@ -119,23 +119,23 @@ Test Data:
 QR：
 > TBD
 
-#### CDDL for aptos account
+#### CDDL for multiple accounts
 
 The following specification is written in Concise Data Definition Language [CDDL].
 
-When used embedded in another CBOR structure, this structure should be tagged #6.3101.
-
 ```
 key_exp = #6.303(crypto-hdkey)
-aptos-account = (
+
+accounts = {
     master-fingerprint: uint32, ; Master fingerprint (fingerprint for the master public key as per BIP32)
-    account: key_exp ;  Account key for a offline singer.
-    authentication-keys: [+ key_exp] ; Possible authentication keys of the account.
-)
+    keys: [+ key_exp] ; Different auth keys for a offline signer.
+    ? device: text ; Indicates the origin of these accounts, e.g. 'Keystone'
+}
 
 master-fingerprint = 1
-account = 2
-authentication-keys = 3
+keys = 2
+device = 3
+
 ```
 
 #### Example:
@@ -145,28 +145,6 @@ Test Data:
 QR：
 > TBD
 
-
-#### CDDL for aptos multiple accounts
-
-```
-account_exp = #6.3101(aptos-account)
-aptos-multi-accounts = (
-    master-fingerprint: uint32, ; Master fingerprint (fingerprint for the master public key as per BIP32)
-    accounts: [+ account_exp] ; multiple accounts for a offline signer
-    ?origin: text ; Indicates the origin of these accounts, e.g. 'Keystone'
-)
-
-master-fingerprint = 1
-accounts = 2
-origin = 3
-```
-
-#### Example:
-Test Data:
-> TBD
-
-QR：
-> TBD
 
 ### Sending the unsigned data from wallet-only wallet to offline signer.
 For sending the unsigned data from a watch-only wallet to an offline signer. a new bc-ur type `aptos-sign-request` will be introduced for encoding the signing request, multiple sign requests are supported.
@@ -180,9 +158,9 @@ UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.
 ; Metadata for the signing request for aptos.
 ; `request-id` is the identifier for this signing request.
 ; `sign-data` is the transaction data to be signed.
-; `authentication-key-derivation-path` is the path of the private key to sign the data. For sign-type-single type, there is only one value in the list. For sign-type-multi, there is N values in the list, N is the "K-of-N multisig authentication".
+; `authentication-key-derivation-paths` is the path of the private keys to sign the data. For sign-type-single type, there is only one value in the list. For sign-type-multi, there is N values in the list, N is the "K-of-N multisig authentication".
 ; `origin` is the origin of this sign request. like watch-only wallet name.
-; `account-derivation-path` is the path of the Aptos account address of the signing for verification which is optional. 
+; `accounts ` is the Aptos account of the signing type for verification purpose which is optional  
 ; `type` is a field used to distinguish transaction types: single-sign or multi-sign.
 
 path_exp = #6.304(crypto-keypath)
@@ -190,16 +168,16 @@ path_exp = #6.304(crypto-keypath)
 aptos-sign-request = (
     request-id: uuid,
     sign-data: bytes,
-    authentication-key-derivation-path: [+ path_exp], ;the key path for signing this request
-    ?account-derivation-path: [+ path_exp], ;the account path for signing this request
+    authentication-key-derivation-paths: [+ path_exp], ;the key paths for signing this request
+    ?accounts: [+ bytes],
     ?origin: text,
     type: int. default sign-type-single, ;sign type identifier
 )
 
 request-id = 1
 sign-data = 2
-authentication-key-derivation-path = 3
-account-derivation-path = 4
+authentication-key-derivation-paths = 3
+accounts = 4
 origin = 5
 type = 6
 
