@@ -161,7 +161,7 @@ UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.
 ; `authentication-key-derivation-paths` is the path of the private keys to sign the data. For sign-type-single type, there is only one value in the list. For sign-type-multi, there is N values in the list, N is the "K-of-N multisig authentication".
 ; `origin` is the origin of this sign request. like watch-only wallet name.
 ; `accounts ` is the Aptos account of the signing type for verification purpose which is optional  
-; `type` is a field used to distinguish transaction types: single-sign or multi-sign.
+; `type` is a field used to distinguish transaction types: single-sign or multi-sign or message.
 
 path_exp = #6.304(crypto-keypath)
 
@@ -183,6 +183,8 @@ type = 6
 
 sign-type-single = 1
 sign-type-multi = 2
+sign-type-message = 3
+
 
 ```
 
