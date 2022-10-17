@@ -28,10 +28,10 @@ ur-registry-eth: [source code](https://github.com/KeystoneHQ/keystone-airgaped-b
 npm package: [`@keystonehq/bc-ur-registry-eth`](https://www.npmjs.com/package/@keystonehq/bc-ur-registry-eth)
 
 #### Sample
-Install the package `@keystonehq/bc-ur-registry-ethereum`
+Install the package `@keystonehq/bc-ur-registry-eth`
 
 ```js
-yarn add @keystonehq/bc-ur-registry-ethereum
+yarn add @keystonehq/bc-ur-registry-eth
 ```
 
 sample code:
@@ -268,9 +268,10 @@ We have also provided the `eth-signature` in the `ur-registry-eth` library.
 ##### Sample
 ```ts
 import {
-    URDecoder,
     ETHSignature,
 } from '@keystonehq/bc-ur-registry-eth';
+
+import {URDecoder} from '@ngraveio/bc-ur';
 
 const decoder = new URDecoder();
 
