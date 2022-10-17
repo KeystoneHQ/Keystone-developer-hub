@@ -98,7 +98,7 @@ import { BN } from 'ethereumjs-util';
 import {
     CryptoHDKey,
     generateAddressfromXpub,
-    findHDpatfromAddress,
+    findHDPathFromAddress,
     EthSignRequest,
     DataType,
     ETHSignature,
@@ -137,12 +137,12 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const eachChunkNumberInEachQR = 400; // specify the each chunk Number in single QR Code
 
-// get the ur decoder
-const urDecoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
+// get the ur encoder
+const urEncoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
 
 // render each chunk of data in sign QR Code
 while (true) {
-    renderQR(urDecoder.nextPart());
+    renderQR(urEncoder.nextPart());
 }
 ```
 
@@ -156,7 +156,7 @@ import { BN } from 'ethereumjs-util';
 import {
     CryptoHDKey,
     generateAddressfromXpub,
-    findHDpatfromAddress,
+    findHDPathFromAddress,
     EthSignRequest,
     DataType,
     ETHSignature,
@@ -180,12 +180,12 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// get the ur decoder
-const urDecoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
+// get the ur encoder
+const urEncoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
 
 // render each chunk of data in sign QR Code
 while (true) {
-    renderQR(urDecoder.nextPart());
+    renderQR(urEncoder.nextPart());
 }
 ```
 
@@ -194,7 +194,7 @@ while (true) {
 import {
     CryptoHDKey,
     generateAddressfromXpub,
-    findHDpatfromAddress,
+    findHDPathFromAddress,
     EthSignRequest,
     DataType,
     ETHSignature,
@@ -216,12 +216,12 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// get the ur decoder
-const urDecoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
+// get the ur encoder
+const urEncoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
 
 // render each chunk of data in sign QR Code
 while (true) {
-    renderQR(urDecoder.nextPart());
+    renderQR(urEncoder.nextPart());
 }
 ```
 
@@ -250,12 +250,12 @@ const ethSignRequest = EthSignRequest.constructETHRequest(
 
 const ChunkNumberInEachQR    = 400; // specify the each chunk number in single QR Code
 
-// get the ur decoder
-const urDecoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
+// get the ur encoder
+const urEncoder = ethSignRequest.toUREncoder(eachChunkNumberInEachQR);
 
 // render each chunk of data in sign QR Code
 while (true) {
-    renderQR(urDecoder.nextPart());
+    renderQR(urEncoder.nextPart());
 }
 ```
 
