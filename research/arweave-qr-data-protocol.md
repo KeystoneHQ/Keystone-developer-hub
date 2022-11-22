@@ -101,13 +101,15 @@ UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.
 ; `request-id` is the identifier for this signing request.
 ; `sign-data` is the transaction data to be signed.
 ; `sign-type` is the data type to be signed, eg `sign-type-transaction` for signing transaction, `sign-type-data-item` for signing data item. 
+; `salt-len` is the `rsa-pss` salt length, zero for deterministic signature.
 ; `origin` is the origin of this sign request. like watch-only wallet name.
 ; `account` is the Arweave account of the signing type for verification purpose which is optional.
 
 arweave-sign-request = (
     ?request-id: uuid,
     sign-data: [+ bytes],
-    sign-type: int .default sign-type-transaction, ;sign type identifier
+    sign-type: int .default sign-type-transaction, ;sign type identifier,
+    salt_len: int, ;RSA-PSS salt length.
     ?origin: text,
     ?account: bytes,
 )
