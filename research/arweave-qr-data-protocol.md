@@ -98,6 +98,7 @@ UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.
 
 ```
 ; Metadata for the signing request for Arweave.
+; `master-fingerprint` is the identifier for this arweave account.
 ; `request-id` is the identifier for this signing request.
 ; `sign-data` is the transaction data to be signed.
 ; `sign-type` is the data type to be signed, eg `sign-type-transaction` for signing transaction, `sign-type-data-item` for signing data item. 
@@ -106,6 +107,7 @@ UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.
 ; `account` is the Arweave account of the signing type for verification purpose which is optional.
 
 arweave-sign-request = (
+    master-fingerprint: uint32, ; Master fingerprint (fingerprint for the master public key as per BIP32)
     ?request-id: uuid,
     sign-data: [+ bytes],
     sign-type: int .default sign-type-transaction, ;sign type identifier,
@@ -114,11 +116,13 @@ arweave-sign-request = (
     ?account: bytes,
 )
 
-request-id = 1
-sign-data = 2
-sign-type = 3
-account = 4
-origin = 5
+master-fingerprint = 1
+request-id = 2
+sign-data = 3
+sign-type = 4
+salt-len = 5
+account = 6
+origin = 7
 ```
 
 #### Example
