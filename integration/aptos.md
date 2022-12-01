@@ -16,7 +16,7 @@ from [here](https://keyst.one/firmware?locale=en).
 In order to work with Keystone, a wallet can follow the process:
 
 1. Keystone provides the public key information to the wallet via QR code, to generate authentication key, which then
-   can be used to search the Atops addresses on chain.
+   can be used to search the Aptos addresses on chain.
 2. The wallet generates the unsigned transactions, sends it to Keystone to sign via QR Code.
 3. Keystone would then sign the data and provide a signature as well as the related public key, back to the wallet via
    QR Code.
@@ -62,7 +62,7 @@ const connectWallet = aysnc()=>{
 
 ```
 
-![readKeyring waiting for scan QR code](../pics/aptos_read_keyring.png)
+![readKeyring waiting for scan QR code](../pics/read_keyring.png)
 
 ### Sign Transaction
 
@@ -75,7 +75,7 @@ console.log(signature.toString('hex')); // 47e7b510784406dfa14d9fd13c3834128b49c
 console.log(authPubKey.toString('hex')); // 8e53e7b10656816de70824e3016fc1a277e77825e12825dc4f239f418ab2e04e
 ```
 
-![transaction to be signed](../pics/aptos_sign_request.png)
+![transaction to be signed](../pics/sign_request.png)
 
 ## Customize the interaction provider
 
@@ -165,7 +165,7 @@ export default class ConfirmKeystoneTransaction extends Component {
             }));
         });
     }
-    return <AnimatedQRCode cbor={signRequest?.cbor} type={'sol-sign-request'} options={{ size: isSmallView ? 300 : 400 }} />
+    return <AnimatedQRCode cbor={signRequest?.cbor} type={'aptos-sign-request'} options={{ size: isSmallView ? 300 : 400 }} />
     
 }
 
