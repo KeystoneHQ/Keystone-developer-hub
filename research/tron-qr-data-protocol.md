@@ -43,7 +43,7 @@ all the data are encoded by CBOR and the CDDL is the data definition language fo
 please check out [here](https://github.com/BlockchainCommons/Research/blob/master/papers/bcr-2020-005-ur.md).
 
 ### Sending the unsigned data from wallet-only wallet to offline signer.
-For sending the unsigned data from a watch-only wallet to an offline signer. a new bc-ur type `tron-sign-request-kt` will be introduced for encoding the signing request.
+For sending the unsigned data from a watch-only wallet to an offline signer. a new bc-ur type `tron-sign-request` will be introduced for encoding the signing request.
 
 #### CDDL for Tron Sign Request.
 The following specification is written in Concise Data Definition Language [CDDL].
@@ -57,7 +57,7 @@ UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.
 ; `origin` is the origin of this sign request. like watch-only wallet name.
 ; `address` is the Tron address of the signing type for verification purpose which is optional 
 
-tron-sign-request-kt = (
+tron-sign-request = (
     ?request-id: uuid,
     sign-data: bytes,
     derivation-path: #5.304(crypto-keypath), ;the key path for signing this request
@@ -121,7 +121,7 @@ TRC10 transfer example
 TBD
 
 ### Offline signers provide the signature to watch-only wallets.
-After signing the data offline signer should send the signature back to the watch-only wallet. and a new bc-ur type called `tron-signature-kt` introduced here to encode the data.
+After signing the data offline signer should send the signature back to the watch-only wallet. and a new bc-ur type called `tron-signature` introduced here to encode the data.
 
 #### CDDL for Sol Signature.
 The following specification is written in Concise Data Definition Language [CDDL].
