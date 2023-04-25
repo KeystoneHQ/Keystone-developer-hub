@@ -1,21 +1,8 @@
-# Solana qr code data transmission protocol
+# Cardano qr code data transmission protocol
 
 ## Abstract
 
-This is the process and data transmission standard via QR Code for offline signer to work with watch-only wallet on Solana.
-
-## Motivation
-
-Currently, more and more users would like to use complete offline signers like hardware wallets, mobile phones on offline mode to manage their private keys. In order to sign transaction or data, these offline signers have to work with a watch-only wallet. these watch-only will prepare the data to be sign. 
-Currently, the data transmission method between offline signers and watch-only wallet will include QR Code, usb,bluetooth and file transfer.Compare with other data transmission method like usd, bluetooth, and file transfer, the QR Code data transmission have these advantages.
-
-- Transparency and Security: Compared to usb or bluetooth, user can easily decode the data in QR Code (with the help of some tools), it can let user know what they are going to sign. this Transparency can provide more security.
-- Better Compatibility: Compared to usb and Bluetooth, the QR Code data transmission have better compatibility, normally it will not be break by other software change like browser upgrade. system upgrade etc.
-- Better User experience: The QR Code data transmission can provide much better user experience compare to usb, bluetooth and file transfer especially on the mobile environment.
-- Smaller attack surface. USB and Bluetooth have a higher attack surface than QR-Codes.
-
-Because of these advantages, the QR Code data transmission is a better choice. However, there is no standard specification for QR usage in Solana.
-This article presents a standard process and data transmission protocol for offline signers to work with the watch-only wallet.
+This is the process and data transmission standard via QR Code for offline signer to work with watch-only wallet on Cardano.
 
 ## Specification
 
@@ -28,7 +15,7 @@ In order to work with offline signers, the watch-only wallet should follow the f
 1. offline signers provide public key information to watch-only wallets to generate addresses and sync balance etc via QR Code.
 2. a watch-only wallet generates the unsigned data and sends it to an offline signer to sign it via QR Code.
 3. an offline signer signs the data and provides a signature back to the watch-only wallet via QR Code.
-4. a watch-only wallet gets the signature and constructs the signed data (transaction) and performs the following action like broadcasting the transaction etc.
+4. a watch-only wallet gets the signature and constructs the signed data (transaction) and performs the following actions like broadcasting the transaction etc.
 
 ## Data transmission protocol
 
@@ -38,7 +25,7 @@ Since one QR Code can contain a limited size of data, the animated QR Codes shou
 ### Setup watch-only wallet by offline signer.
 In order to let a watch-only wallet collect information from blockchain, the offline signer should provide public keys to watch-only wallets which generate addresses from these keys and query info like balance from blockchain. 
 
-In this case, offline signers will provide the public keys and derivation path. the UR Type called `crypto-hdkey` will be used to encode these data. and the derivation path will be encoded as `crypto-keypath` which defined in bc-ur. Also, a new UR type `crypto-multi-accounts` will be used if we want to import multiple accounts in one animated QR. 
+In this case, offline signers will provide the public keys and derivation path. the UR Type called `crypto-hdkey` will be used to encode these data. and the derivation path will be encoded as `crypto-keypath` which defined in bc-ur.Also, a new UR type `crypto-multi-accounts` will be used if we want to import multiple accounts in one animated QR. 
 
 #### CDDL for Key Path
 The following specification is written in Concise Data Definition Language [CDDL].
@@ -80,12 +67,16 @@ The following specification is written in Concise Data Definition Language [CDDL
 ```
 
 #### CDDL for derivation key
-Since the main purpose of the key is to transfer public key data. the defination of crypto-hdkey will be kept on ly public keys.
+Since the main purpose of the key is to transfer public key data. the defination of crypto-hdkey will be kept only public keys.
 For HD-derivation-key, which will present the key data and its derivation path.
 The following specification is written in Concise Data Definition Language [CDDL] and includes the crypto-keypath spec above.
 ```
 ; A derived key must be public, has an optional chain code, and
 ; may carry additional metadata about its use and derivation.
+; To maintain isomorphism with [BIP32] and allow keys to be derived from
+; this key `chain-code`, `origin`, and `parent-fingerprint` must be present.
+; If `origin` contains only a single derivation step and also contains `source-fingerprint`,
+; then `parent-fingerprint` MUST be identical to `source-fingerprint` or may be omitted.
 derived-key = (
 	key-data: key-data-bytes,
 	? chain-code: chain-code-bytes       ; omit if no further keys may be derived from this key
@@ -93,89 +84,90 @@ derived-key = (
 	? name: text,                        ; A short name for this key.
 )
 
-key-data = 3
-chain-code = 4
-origin = 6
-name = 9
+; If the `use-info` field is omitted, defaults (mainnet BTC key) are assumed.
+; If `cointype` and `origin` are both present, then per [BIP44], the second path
+; component's `child-index` must match `cointype`.
 
-key-data-bytes = bytes .size 32..33
+key-data = 1
+chain-code = 2
+origin = 3
+name = 4
+
+uint8 = uint .size 1
+key-data-bytes = bytes .size 32
 chain-code-bytes = bytes .size 32
 ```
 If the chain-code is provided is can be used to derive child keys and if the chain code is not provided it just an solo key and origin can be provided to indicate the derivation key path.
 
-#### CDDL for multiple accounts
-
-```
-key_exp = #6.303(crypto-hdkey)
-
-accounts = {
-    master-fingerprint: uint32, ; Master fingerprint (fingerprint for the master public key as per BIP32)
-    keys: [+ key_exp] ; Different account keys for a offline signer.
-    ? device: text ; Indicates the origin of these accounts, e.g. 'Keystone'
-}
-
-master-fingerprint = 1
-keys = 2
-device = 3
-```
-
-#### Example:
-Test Data:
-> TBD
-
-QR：
-> TBD
+### Request key from off-line signer
+In some cases, e.g. Eternl wallet, online watch-only wallet may want to request specific public keys from off-line signer.
+Please refer to [key-derivation-call](key-derivation-call.md) for more info.
 
 ### Sending the unsigned data from wallet-only wallet to offline signer.
-For sending the unsigned data from a watch-only wallet to an offline signer. a new bc-ur type `sol-sign-request` will be introduced for encoding the signing request.
+For sending the unsigned data from a watch-only wallet to an offline signer. a new bc-ur type `cardano-sign-request` will be introduced for encoding the signing request, multiple sign requests are supported.
 
-#### CDDL for Sol Sign Request.
+#### CDDL for Cardano Sign Request.
 The following specification is written in Concise Data Definition Language [CDDL].
 UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.37, per the IANA CBOR Tags Registry.
 
-
 ```
-; Metadata for the signing request for Solana.
+; Metadata for the signing request for Cardano.
 ; `request-id` is the identifier for this signing request.
 ; `sign-data` is the transaction data to be signed.
-; `derivation-path` is the path of the private key to sign the data
+; `utxos` is the transactions inputs.
 ; `origin` is the origin of this sign request. like watch-only wallet name.
-; `address` is the Solana address of the signing type for verification purpose which is optional 
 
-sol-sign-request = (
+cardano-sign-request = (
     ?request-id: uuid,
-    sign-data: bytes,
-    derivation-path: #5.304(crypto-keypath), ;the key path for signing this request
+    sign-data: bytes, ; transaction cbor hex
+    utxos: [+ cardano-utxo] ; will be checked with sign-data 
     ?origin: text,
-    ?address: bytes
-    ?type: int .default sign-type-transaction, ;sign type identifier
 )
 
 request-id = 1
 sign-data = 2
-derivation-path = 3
-address = 4
-origin = 5
-type = 6
+utxos = 3
+origin = 4
 
-sign-type-transaction = 1
-sign-type-message = 2
+; Metadata for the UTXO in cardano
+; `transaction-hash` input's previous transaction hash
+; `index` input's index in previous transaction
+; `amount` input's amount , should be u64
+; `key-path` the related private key path of this input
+; `address` the display address of this input, might be a base address or an enterprise address
+cardano-utxo = (
+    transaction-hash: bytes .size 32
+    index: uint,
+    amount: uint,
+    key-path: #6.304(crypto-keypath),
+    address: text, 
+)
+
+transaction-hash = 1
+index = 2
+amount = 3
+key-path = 4
+address = 5
 ```
 
 #### Example
 TBD
 
 ### Offline signers provide the signature to watch-only wallets.
-After signing the data offline signer should send the signature back to the watch-only wallet. and a new bc-ur type called `sol-signature` introduced here to encode the data.
+After signing the data offline signer should send the signature back to the watch-only wallet. and a new bc-ur type called `cardano-signature` introduced here to encode the data, multiple signatures are supported.
 
 #### CDDL for Sol Signature.
 The following specification is written in Concise Data Definition Language [CDDL].
 
 ```
-sol-signature  = (
+cardano-signatures  = (
     request-id: uuid,
-    signature: bytes
+    signatures: [+ bytes]; might be multiple signatures
 )
+
+request-id = 1
+signatures = 2
+
 ```
 
 ## Copyright
