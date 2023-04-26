@@ -160,13 +160,13 @@ After signing the data offline signer should send the signature back to the watc
 The following specification is written in Concise Data Definition Language [CDDL].
 
 ```
-cardano-signatures  = (
+cardano-witness-set  = (
     request-id: uuid,
-    signatures: [+ bytes]; might be multiple signatures
+    witness-set: bytes; cbor encoded transaction_witness_set
 )
 
 request-id = 1
-signatures = 2
+witness-set = 2
 
 ```
 
