@@ -13,19 +13,32 @@ So we propose to create an this protocol for Keystone to provide an excutable AP
 
 ## CDDL for key-derivation-call
 ```
-key-derivation = {
-    name: "key-derivation",
-    params: {
-        keypath: [#6.304(crypto-keypath)],
-        ? origin: string, ; indicates where is this call from
-        ? curve: curve_exp, ; default to "secp256k1"
-        ? derivation_algorithm: derivation_algorithm_exp, ;default to "slip10"
-    }
-}
+qr-hardware-call = (
+    name: call-name, ; the purpose of this call
+    params: call-params ; the params of this call
+)
 
-curve_exp: "secp256k1" / "ed25519"
+call-name = "key-derivation"
+call-params = key-derivation-params ; may add others in the future
 
-derivation_algorithm_exp: "slip10" / "bip32ed25519"
+name = 1
+params = 2
+
+key-derivation-params = (
+    keypath: [#6.304(crypto-keypath)],
+    ? curve: curve_exp, ; default to "secp256k1"
+    ? algo: derivation_algorithm_exp, ;default to "slip10"
+    ? origin: string, ; indicates where is this call from
+)
+
+curve_exp = "secp256k1" / "ed25519"
+
+derivation_algorithm_exp = "slip10" / "bip32ed25519"
+
+keypath = 1
+curve = 2
+algo = 3
+origin = 4
 ```
 
 ### Acceptable Combination
