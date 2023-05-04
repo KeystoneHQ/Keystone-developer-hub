@@ -115,12 +115,13 @@ UUIDs in this specification notated uuid are CBOR binary strings tagged with #6.
 ; `request-id` is the identifier for this signing request.
 ; `sign-data` is the transaction data to be signed.
 ; `utxos` is the transactions inputs.
+; `cert-keys` is the stake keys need to use in this transaction;
 ; `origin` is the origin of this sign request. like watch-only wallet name.
 
 cardano-sign-request = (
     ?request-id: uuid,
     sign-data: bytes, ; transaction cbor hex
-    utxos: [+ cardano-utxo] ; will be checked with sign-data 
+    utxos: [ cardano-utxo] ; will be checked with sign-data 
     cert-keys: [ cardano-cert-key ] ;
     ?origin: text,
 )
