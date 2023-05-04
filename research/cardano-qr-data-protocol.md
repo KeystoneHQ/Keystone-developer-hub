@@ -121,13 +121,15 @@ cardano-sign-request = (
     ?request-id: uuid,
     sign-data: bytes, ; transaction cbor hex
     utxos: [+ cardano-utxo] ; will be checked with sign-data 
+    cert-keys: [ cardano-cert-key ] ;
     ?origin: text,
 )
 
 request-id = 1
 sign-data = 2
 utxos = 3
-origin = 4
+cert-keys = 4
+origin = 5
 
 ; Metadata for the UTXO in cardano
 ; `transaction-hash` input's previous transaction hash
@@ -148,6 +150,18 @@ index = 2
 amount = 3
 key-path = 4
 address = 5
+
+; Metadata for the stake cert in cardano
+; This is used when transaction has stake certs
+; `key-hash` the stake key hash;
+; `key-path` the related private key path of this input
+cardano-cert-key = (
+    key-hash: bytes,
+    key-path: #6.304(crypto-keypath),
+)
+
+key-hash = 1
+key-path = 2
 ```
 
 #### Example
