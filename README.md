@@ -10,7 +10,7 @@ Keystone is built on a specialized security hardware platform with a Secure Elem
 
 ![Keystone Hight Level Architecture](./system-arch-chart.png)
 
-The user’s master seed is saved in the Secure Element and never leaves it. The Secure Element communicates with the hardware wallet application layer through a serial communication protocol. Users need to set a password before using Keystone, which can be used to unlock the device, sign transactions, or do other sensitive operations.
+The user's senstive data like private keys, master seed, entropy are stored on the secure element.The Secure Element communicates with the hardware wallet application layer through a serial communication protocol. Users need to set a password before using Keystone, which can be used to unlock the device, sign transactions, or do other sensitive operations.
 
 We use QR code data transmissions to air-gap. For details on the data protocol we use, please check [here](https://github.com/KeystoneHQ/crypto-coin-message-protocol)
 
